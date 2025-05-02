@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RASHID ZEROUAL | Hacker Terminal</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+    .terminal {
+      position: relative;
+      z-index: 1;
+      padding: 50px 20px;
+      max-width: 800px;
+      margin: 100px auto;
+    }
+    .typing {
+      border-right: 2px solid #00ff00;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 4s steps(40, end) forwards, blink .7s step-end infinite;
+      font-size: 1.5em;
+    }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    @keyframes blink {
+      from, to { border-color: transparent }
+      50% { border-color: #00ff00; }
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 12px 24px;
+      background: #00ff00;
+      color: black;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 5px;
+      box-shadow: 0 0 10px #00ff00;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #0f0;
+      box-shadow: 0 0 20px #00ff00;
+    }
+  </style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div class="terminal">
+  <div class="typing" id="typing">>> ACCESS GRANTED: RASHID ZEROUAL 💻</div>
+  <p id="text" style="opacity:0; transition: opacity 2s; margin-top: 40px;">
+    Welcome to the underground. Systems are meant to be broken.<br>
+    Bots, exploits, casino scripts. I build them. I use them.<br>
+    You want in?
+  </p>
+  <a class="btn" href="https://t.me/YourHackBot" target="_blank">Connect via Telegram</a>
+</div>
+<audio id="typeSound" src="https://assets.mixkit.co/active_storage/sfx/1450/1450-preview.mp3" preload="auto"></audio>
+<script>
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+  const letters = "01";
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
+  const drops = Array.from({length: columns}, () => 1);
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#0f0";
+    ctx.font = fontSize + "px monospace";
+    for(let i = 0; i < drops.length; i++) {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+  setInterval(drawMatrix, 33);
+  const sound = document.getElementById('typeSound');
+  const typing = document.getElementById('typing');
+  typing.addEventListener('animationstart', () => {
+    sound.play();
+  });
+  typing.addEventListener('animationend', () => {
+    document.getElementById('text').style.opacity = 1;
+  });
+</script>
+</body>
+</html>
